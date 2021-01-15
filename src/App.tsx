@@ -1,24 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
+  const [answer, setAnswer] = useState("");
+  const handleAnswerChange = (event: any) => {
+    switch (event.keyCode) {
+      case 37: // left
+        setAnswer("<span>&larr;</span>");
+        break;
+      case 38: // up
+        setAnswer("&uarr;");
+        break;
+      case 39: // right
+        setAnswer("&rarr;");
+        break;
+      case 40: // down
+        setAnswer("&darr;");
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {answer}
+      <input type="text" onKeyDown={handleAnswerChange} />
     </div>
   );
 }
