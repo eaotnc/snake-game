@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-const defaultTables: Array<string> = ["", "", "", "", "", "", "", "", "", ""];
+const defaultTables = ["", "", "", "", "", "", "", "", "", ""];
 
 function App() {
   const [snakePosition, setSnakePosition] = useState([
@@ -12,6 +12,7 @@ function App() {
   ]);
   const [tables, setTables] = useState(defaultTables);
   const [keyboardDirection, setKeyboardDirection] = useState("");
+  console.log("🚀 ~ defaultTables", defaultTables);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -23,7 +24,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    let newTable = ["", "", "", "", "", "", "", "", "", ""];
+    let newTable = new Array(...defaultTables);
     snakePosition.map((snake) => {
       newTable.splice(snake.x, 1, "s");
     });
