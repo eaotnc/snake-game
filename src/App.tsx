@@ -2,27 +2,28 @@ import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
+const defaultTables: Array<string> = ["", "", "", "", "", "", "", "", "", ""];
+
 function App() {
   const [snakePosition, setSnakePosition] = useState([
     { part: "head", x: 2 },
     { part: "body", x: 1 },
     { part: "tail", x: 0 },
   ]);
-  const [tables, setTables] = useState(["", "", "", "", "", ""]);
+  const [tables, setTables] = useState(defaultTables);
   const [keyboardDirection, setKeyboardDirection] = useState("");
-  const [snakeLength, setSnakeLength] = useState(3);
 
   useEffect(() => {
     const timer = setInterval(() => {
       updateUi();
-    }, 1000);
+    }, 500);
     return () => {
       clearInterval(timer);
     };
   }, []);
 
   useEffect(() => {
-    let newTable = ["", "", "", "", "", ""];
+    let newTable = ["", "", "", "", "", "", "", "", "", ""];
     snakePosition.map((snake) => {
       newTable.splice(snake.x, 1, "s");
     });
@@ -34,7 +35,7 @@ function App() {
       preSnake.map((snake: any) => {
         return {
           part: snake.part,
-          x: snake.x < 5 ? snake.x + 1 : 0,
+          x: snake.x < tables.length - 1 ? snake.x + 1 : 0,
         };
       })
     );
@@ -73,7 +74,6 @@ function App() {
   return (
     <div className="App">
       <input type="text" onKeyDown={handleAnswerChange} />
-      {snakeLength}
       <div className="column">{renderSnake()}</div>
     </div>
   );
