@@ -3,7 +3,7 @@ import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
-  const [table, setTable] = useState([0, 0, 0, 0, 0, 0]);
+  const [table, setTable] = useState([{}, 1, 1, 1, 0, 0]);
   const [snakeLength, setSnakeLength] = useState(3);
 
   useEffect(() => {
