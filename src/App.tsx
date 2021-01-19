@@ -3,7 +3,7 @@ import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
-  const [answer, setAnswer] = useState("");
+  const [table, setTable] = useState([0, 0, 0, 0, 0, 0]);
   const [snakeLength, setSnakeLength] = useState(3);
 
   useEffect(() => {
@@ -46,9 +46,9 @@ function App() {
   };
 
   const renderSnake = () => {
-    let result: string = "";
+    let result = [];
     for (let i = 0; i < snakeLength; i++) {
-      result = result + '<div className="tile"></div>';
+      result.push(<div className="row"></div>);
     }
     return result;
   };
@@ -57,7 +57,14 @@ function App() {
     <div className="App">
       <input type="text" onKeyDown={handleAnswerChange} />
       {snakeLength}
-      {renderSnake()}
+      <div className="column">
+        <div className="row"></div>
+        <div className="row"></div>
+        <div className="row"></div>
+        <div className="row"></div>
+        <div className="row"></div>
+        <div className="row"></div>
+      </div>
     </div>
   );
 }
