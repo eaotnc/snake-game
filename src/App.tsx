@@ -2,26 +2,28 @@ import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-const defaultTables = ["", "", "", "", "", "", "", "", "", ""];
+const defaultTables = ["", "", "", "", "", "", "", "", "", "", "", ""];
 
 function App() {
   const [snakePosition, setSnakePosition] = useState([
-    { part: "head", x: 2 },
+    { part: "head", x: 3 },
+    { part: "body", x: 2 },
     { part: "body", x: 1 },
     { part: "tail", x: 0 },
   ]);
   const [tables, setTables] = useState(defaultTables);
   const [keyboardDirection, setKeyboardDirection] = useState("");
-  console.log("🚀 ~ defaultTables", defaultTables);
+  const [timer, setTimer]: any = useState(null);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      updateUi();
-    }, 500);
+    const newTimer = setInterval(() => {
+      changeSnakeByKeyboard();
+    }, 1000);
+    setTimer(newTimer);
     return () => {
       clearInterval(timer);
     };
-  }, []);
+  }, [tables]);
 
   useEffect(() => {
     let newTable = new Array(...defaultTables);
@@ -31,31 +33,48 @@ function App() {
     setTables(newTable);
   }, [snakePosition]);
 
-  const updateUi = () => {
+  const changeSnakeByKeyboard = () => {
+    console.log("🚀 ~ App ~ keyboardDirection i", keyboardDirection);
+
     setSnakePosition((preSnake) =>
       preSnake.map((snake: any) => {
+        const newSnakePosition = getNewSnakePosition(snake.x);
+        //right snake.x > 0 ? snake.x - 1 : tables.length,
+        //left snake.x < tables.length - 1 ? snake.x + 1 : 0,
         return {
           part: snake.part,
-          x: snake.x < tables.length - 1 ? snake.x + 1 : 0,
+          x: newSnakePosition,
         };
       })
     );
   };
-  console.log("🚀 ~ useEffect ~ table", tables);
+
+  const getNewSnakePosition = (position: any) => {
+    console.log(
+      "🚀 ~ getNewSnakePosition ~ keyboardDirection",
+      keyboardDirection
+    );
+    const endOfTable = tables.length - 1;
+    if (keyboardDirection === "right") {
+      return position < endOfTable ? position + 1 : 0;
+    } else {
+      return position >= 0 ? position - 1 : endOfTable;
+    }
+  };
 
   const handleAnswerChange = (event: any) => {
     switch (event.keyCode) {
-      case 37: // left
-        setKeyboardDirection("<span>&larr;</span>");
+      case 37: // left &larr;
+        setKeyboardDirection("left");
         break;
-      case 38: // up
-        setKeyboardDirection("&uarr;");
+      case 38: // up &uarr;
+        setKeyboardDirection("up");
         break;
-      case 39: // right
-        setKeyboardDirection("&rarr;");
+      case 39: // right &rarr;
+        setKeyboardDirection("right");
         break;
-      case 40: // down
-        setKeyboardDirection("&darr;");
+      case 40: // down &darr;
+        setKeyboardDirection("down");
         break;
       default:
         break;
